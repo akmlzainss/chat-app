@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser'; // ✅ Tambahkan ini
+import cors from 'cors';
 
 import { connectDB } from './lib/db.js';
 
@@ -14,6 +15,10 @@ const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:5173', // Ganti dengan origin frontend Anda
+  credentials: true, // Izinkan pengiriman cookie
+}));
 
 
 app.use("/api/auth", authRoutes);
