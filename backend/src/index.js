@@ -13,16 +13,19 @@ const app = express();
 
 const PORT = process.env.PORT;
 
-app.use(express.json());
+// Tambahkan limit agar bisa kirim data besar (seperti gambar base64)
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser());
 app.use(cors({
-  origin: 'http://localhost:5173', // Ganti dengan origin frontend Anda
-  credentials: true, // Izinkan pengiriman cookie
+  origin: 'http://localhost:5173',
+  credentials: true,
 }));
 
 
+
 app.use("/api/auth", authRoutes);
-app.use("/api/message", messageRoutes);
+app.use("/api/messages", messageRoutes);
 
 app.listen(PORT, () => {
   console.log("Server is running on PORT: " + PORT);
