@@ -214,8 +214,8 @@ const ChatContainer = () => {
 
                 <div
                   className={`
-                    chat-bubble flex flex-col max-w-[75%]
-                    ${isSent ? 'chat-bubble-primary text-primary-content' : 'bg-base-200 text-base-content'}
+                    rounded-2xl px-3 py-2 flex flex-col max-w-[75%]
+                    ${isSent ? 'bg-primary text-primary-content' : 'bg-base-200 text-base-content'}
                   `}
                 >
                   {/* Image */}
