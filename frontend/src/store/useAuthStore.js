@@ -5,10 +5,7 @@ import { io } from 'socket.io-client';
 import { useChatStore } from './useChatStore.js';
 
 const BASE_URL =
-  import.meta.env.VITE_SOCKET_URL ||
-  (import.meta.env.VITE_API_URL
-    ? new URL(import.meta.env.VITE_API_URL).origin
-    : 'http://localhost:5001');
+  import.meta.env.MODE === 'development' ? 'http://localhost:5001' : '/';
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,

@@ -5,6 +5,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 
+import path from 'path';
+
 import { connectDB } from './lib/db.js';
 
 import authRoutes from './routes/auth.route.js';
@@ -12,7 +14,8 @@ import messageRoutes from './routes/message.route.js';
 import friendRoutes from './routes/friend.route.js';
 import { app, server } from './lib/socket.js';
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5001;
+const __dirname = path.resolve();
 
 app.set('trust proxy', 1);
 
@@ -33,12 +36,25 @@ app.use(
     credentials: true,
   })
 );
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  })
+);
 app.use(compression());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/friends', friendRoutes);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'frontend/dist')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/dist/index.html'));
+  });
+}
 
 server.listen(PORT, () => {
   console.log('Server is running on PORT: ' + PORT);
