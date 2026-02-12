@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/akmlzainss/chat-app/issues"
   },
-  "homepage": "https://github.com/akmlzainss/chat-app#readme"
+  "homepage": "https://github.com/akmlzainss/chat-app#readme",
+  "dependencies": {
+    "socket.io-client": "^4.8.1"
+  }
 }

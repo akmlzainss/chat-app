@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#6366f1"/>
+  <path d="M15 17a5 5 0 015-5h24a5 5 0 015 5v16a5 5 0 01-5 5H28l-7 7v-7h-1a5 5 0 01-5-5V17z" fill="#fff" fill-opacity=".92"/>
+  <text x="32" y="29" text-anchor="middle" dominant-baseline="central" font-family="system-ui,Arial,sans-serif" font-weight="800" font-size="17" fill="#6366f1">C</text>
+</svg>

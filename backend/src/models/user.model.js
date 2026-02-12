@@ -20,6 +20,21 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
+        friends: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            default: []
+        }],
+        friendRequestsSent: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            default: []
+        }],
+        friendRequestsReceived: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            default: []
+        }],
     },
     { timestamps: true }
 );

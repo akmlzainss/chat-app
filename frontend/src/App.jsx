@@ -11,13 +11,15 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/useAuthStore.js';
 import { useThemeStore } from './store/useThemeStore.js';
 import { useEffect } from 'react';
-import { Loader } from "lucide-react"
+import { Loader } from 'lucide-react';
 
 import { Toaster } from 'react-hot-toast';
 
 const App = () => {
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-  const {theme} = useThemeStore();
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
+  const { theme } = useThemeStore();
+
+  console.log({ onlineUsers });
 
   useEffect(() => {
     checkAuth();
@@ -37,14 +39,47 @@ const App = () => {
       <Navbar />
 
       <Routes>
-        <Route path="/" element={ authUser ? <HomePage /> : <Navigate to = "/login" />} />
-        <Route path="/signup" element={ !authUser ? <SignUpPage /> : <Navigate to = "/" />} />
-        <Route path="/login" element={ !authUser ? <LoginPage /> : <Navigate to = "/" />} />
+        <Route
+          path="/"
+          element={authUser ? <HomePage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/signup"
+          element={!authUser ? <SignUpPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/login"
+          element={!authUser ? <LoginPage /> : <Navigate to="/" />}
+        />
         <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/profile" element={ authUser ? <ProfilePage /> : <Navigate to = "/login" />} />
+        <Route
+          path="/profile"
+          element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
+        />
       </Routes>
 
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          style: {
+            background: 'oklch(var(--b1))',
+            color: 'oklch(var(--bc))',
+            borderColor: 'oklch(var(--b3))',
+            borderWidth: '1px',
+          },
+          success: {
+            iconTheme: {
+              primary: 'oklch(var(--su))',
+              secondary: 'oklch(var(--b1))',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: 'oklch(var(--er))',
+              secondary: 'oklch(var(--b1))',
+            },
+          },
+        }}
+      />
     </div>
   );
 };

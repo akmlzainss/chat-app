@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom'; // ✅ Tambahkan ini
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
 import {
   MessageSquare,
@@ -23,6 +23,7 @@ const SignUpPage = () => {
   });
 
   const { signup, isSigningUp } = useAuthStore();
+  const navigate = useNavigate();
 
   const validateForm = () => {
     if (!formData.fullName.trim()) return toast.error('Full Name is required');
@@ -86,7 +87,7 @@ const SignUpPage = () => {
                 <input
                   type="text"
                   className="input input-bordered w-full pl-10"
-                  placeholder="John Doe"
+                  placeholder="Enter your full name"
                   value={formData.fullName}
                   onChange={e =>
                     setFormData({ ...formData, fullName: e.target.value })
@@ -109,7 +110,7 @@ const SignUpPage = () => {
                 <input
                   type="email"
                   className="input input-bordered w-full pl-10"
-                  placeholder="you@example.com"
+                  placeholder="Enter your email"
                   value={formData.email}
                   onChange={e =>
                     setFormData({ ...formData, email: e.target.value })
@@ -132,7 +133,7 @@ const SignUpPage = () => {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   className="input input-bordered w-full pl-10"
-                  placeholder="••••••••"
+                  placeholder="At least 6 characters"
                   value={formData.password}
                   onChange={e =>
                     setFormData({ ...formData, password: e.target.value })
