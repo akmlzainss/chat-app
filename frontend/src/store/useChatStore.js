@@ -206,6 +206,8 @@ export const useChatStore = create((set, get) => ({
     set({ unreadCounts: counts });
   },
 
+  _chatMessageHandler: null,
+
   subscribeToMessages: () => {
     const { selectedUser } = get();
     if (!selectedUser) return;
@@ -213,7 +215,8 @@ export const useChatStore = create((set, get) => ({
     const socket = useAuthStore.getState().socket;
     if (!socket) return;
 
-    socket.on('newMessage', newMessage => {
+    // Store handler reference so we can remove only this one later
+    const chatHandler = newMessage => {
       const isMessageFromSelectedUser =
         newMessage.senderId === selectedUser._id;
       if (!isMessageFromSelectedUser) return;
@@ -228,7 +231,9 @@ export const useChatStore = create((set, get) => ({
         createdAt: newMessage.createdAt,
       };
       set({ lastMessages: lm });
-    });
+    };
+    set({ _chatMessageHandler: chatHandler });
+    socket.on('newMessage', chatHandler);
 
     socket.on('messageDelivered', ({ messageId }) => {
       set({
@@ -262,7 +267,10 @@ export const useChatStore = create((set, get) => ({
   unsubscribeFromMessages: () => {
     const socket = useAuthStore.getState().socket;
     if (!socket) return;
-    socket.off('newMessage');
+    // Only remove the per-chat handler, keep the global one for notifications
+    const handler = get()._chatMessageHandler;
+    if (handler) socket.off('newMessage', handler);
+    set({ _chatMessageHandler: null });
     socket.off('messageDelivered');
     socket.off('messageRead');
     socket.off('userTyping');
